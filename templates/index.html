@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+        <h1>Saturday List:</h1>
+        <form action="{{ url_for('views.add_task') }}" method="post">
+            <input type="text" name="task" placeholder="Enter task" required>
+            <input type="datetime-local" name="date" required>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+                <li class="{{ 'done' if task.done else '' }}">
+                    {{ task.task }} - {{ task.date }}
+                    {% if not task.done %}
+                        <a href="{{ url_for('views.complete_task', task_id=loop.index0) }}" class="complete-btn">Complete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
